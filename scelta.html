@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A' Pinnata — Tre direzioni</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", sans-serif;
+    background: #0e1e2c;
+    color: #faf7f2;
+    min-height: 100vh;
+    padding: 80px 40px;
+  }
+  .head { max-width: 1280px; margin: 0 auto 64px; }
+  .kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #c46a4f;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  h1 em { font-style: italic; color: #d4c5a0; font-weight: 300; }
+  .head p {
+    font-size: 1.1rem;
+    color: rgba(250,247,242,.65);
+    max-width: 58ch;
+    line-height: 1.55;
+  }
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #faf7f2;
+    color: #0e1e2c;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform .4s ease, box-shadow .4s ease;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,.5);
+  }
+  .card-thumb {
+    aspect-ratio: 4/3;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+  .card-body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+  .card-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #c46a4f;
+  }
+  .card h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+  }
+  .card p {
+    color: #4a5868;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card a {
+    margin-top: 12px;
+    align-self: flex-start;
+    background: #0e1e2c;
+    color: #faf7f2;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .25s ease;
+  }
+  .card a:hover { background: #c46a4f; }
+
+  /* thumbnail visuals — small representations of each style */
+  .thumb-1 {
+    background:
+      linear-gradient(180deg, rgba(14,36,54,.55), rgba(14,36,54,.85)),
+      url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80");
+    background-size: cover; background-position: center;
+    display: flex; align-items: flex-end; padding: 28px;
+    color: #faf7f2;
+  }
+  .thumb-1::after {
+    content: "La tua camera sul mare";
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .thumb-2 {
+    background: #f4efe7;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .thumb-2-text {
+    padding: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .thumb-2-text small {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #5b6772;
+  }
+  .thumb-2-text strong {
+    font-family: "Inter", sans-serif;
+    font-weight: 200;
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #2a3540;
+  }
+  .thumb-2-img {
+    background: url("https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=600&q=80") center/cover;
+    filter: saturate(0.7);
+  }
+
+  .thumb-3 {
+    background: #f3ecdd;
+    border-bottom: 1px solid #14160f;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #14160f;
+  }
+  .thumb-3 small {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid #14160f;
+    padding-bottom: 8px;
+  }
+  .thumb-3 .big {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: 2.6rem;
+    line-height: .9;
+    letter-spacing: -0.04em;
+    color: #1d3324;
+  }
+  .thumb-3 .big em { color: #c2624a; }
+
+  /* V4 thumb */
+  .thumb-4 {
+    background: #0a0d12;
+    color: #f5f1e8;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-4::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80");
+    background-size: cover;
+    background-position: center;
+    opacity: .35;
+    filter: brightness(.7);
+  }
+  .thumb-4-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: .7;
+  }
+  .thumb-4-title {
+    position: relative;
+    z-index: 2;
+    font-family: "Fraunces", serif;
+    font-weight: 200;
+    font-size: 2.4rem;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .thumb-4-title em { color: #c9a87a; font-style: italic; }
+  .thumb-4-dot {
+    position: absolute;
+    width: 14px; height: 14px;
+    border: 1px solid #c9a87a;
+    border-radius: 50%;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+  .thumb-4-dot::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: #c9a87a;
+    border-radius: 50%;
+  }
+
+  .card-tag.tag-wow {
+    color: #d4b896;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-tag.tag-wow::after {
+    content: "★ new";
+    background: #c9a87a;
+    color: #0a0d12;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+
+  footer {
+    max-width: 1280px;
+    margin: 80px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid rgba(250,247,242,.1);
+    font-size: 0.85rem;
+    color: rgba(250,247,242,.5);
+  }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div class="kicker">Hotel A' Pinnata — tre direzioni di design</div>
+  <h1>Scegli la <em>direzione</em> che preferisci.</h1>
+  <p>Tre concept distinti, stessa identità di base. Ognuno racconta l'hotel in modo diverso — dal classico boutique mediterraneo, al minimal Aman-style, fino all'editoriale da rivista di viaggio.</p>
+</div>
+
+<div class="grid">
+
+  <article class="card">
+    <div class="card-thumb thumb-1"></div>
+    <div class="card-body">
+      <span class="card-tag">V1 — Boutique Mediterraneo</span>
+      <h2>Editorial Mediterraneo</h2>
+      <p>Eleganza classica da boutique hotel. Hero cinematografico, palette cream + aegean + terracotta, Fraunces serif. La direzione più sicura, più "internazionale".</p>
+      <a href="v1-editorial.html">Apri V1 →</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-thumb thumb-2">
+      <div class="thumb-2-text">
+        <small>— Pignataro · Lipari</small>
+        <strong>La quiete al numero zero del mare.</strong>
+      </div>
+      <div class="thumb-2-img"></div>
+    </div>
+    <div class="card-body">
+      <span class="card-tag">V2 — Coastal Minimal</span>
+      <h2>Aman / Aesop</h2>
+      <p>Minimalismo estremo, whitespace abbondante, solo Inter Tight, palette quasi monocromatica con accento blush. Da spa di lusso, silenzioso e raffinato.</p>
+      <a href="v2-minimal.html">Apri V2 →</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-thumb thumb-3">
+      <small><span>ISSUE N°048</span><span>2026</span></small>
+      <span class="big">Un'isola,<br/><em>un sogno</em></span>
+    </div>
+    <div class="card-body">
+      <span class="card-tag">V3 — Editorial Bold</span>
+      <h2>Magazine cover</h2>
+      <p>Energia da rivista di viaggio. Fraunces gigantesco, monospace, palette forest + apricot + bone, layout asimmetrico con bordi.</p>
+      <a href="v3-editorial.html">Apri V3 →</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-thumb thumb-4">
+      <div class="thumb-4-top">
+        <span>Lipari · 38°N</span>
+        <span>2026</span>
+      </div>
+      <div class="thumb-4-title">La quiete<br/><em>sul mare.</em></div>
+      <div class="thumb-4-dot"></div>
+    </div>
+    <div class="card-body">
+      <span class="card-tag tag-wow">V4 — Cinematic Quiet</span>
+      <h2>Wow silenzioso</h2>
+      <p>Custom cursor, hero con reveal lettera-per-lettera, marquee, sezione camere pinned, hover image preview nelle esperienze, counter animati. Minimale ma con dettagli che ricordi.</p>
+      <a href="index.html">Apri V4 (live) →</a>
+    </div>
+  </article>
+
+</div>
+
+<footer>
+  Suggerimento: aprile ogni versione in una tab separata e confronta. Mobile responsive ✓
+</footer>
+
+</body>
+</html>
