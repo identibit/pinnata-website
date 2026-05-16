@@ -4,13 +4,11 @@ Boutique hotel sul mare di Lipari, Isole Eolie. Sito statico in HTML/CSS/JS vani
 
 ## Struttura
 
-| File | Versione | Note |
-|---|---|---|
-| `index.html` | **V4 — Cinematic Quiet** | Versione in produzione |
-| `v1-editorial.html` | Editorial Mediterraneo | Esplorazione iniziale |
-| `v2-minimal.html` | Coastal Minimal | Esplorazione Aman/Aesop |
-| `v3-editorial.html` | Editorial Bold | Esplorazione magazine cover |
-| `scelta.html` | Hub di confronto | Per navigare tra le 4 versioni |
+| File | Note |
+|---|---|
+| `index.html` | Sito completo (single-file, CSS + JS inline) |
+| `vercel.json` | Config deploy: clean URLs, security headers, cache policy |
+| `README.md` | Questo file |
 
 ## Stack
 
