@@ -62,13 +62,6 @@
   "currenciesAccepted": "EUR",
   "paymentAccepted": "Cash, Credit Card",
   "starRating": { "@type": "Rating", "ratingValue": "4" },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "612",
-    "bestRating": "5",
-    "worstRating": "1"
-  },
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Località Pignataro",
@@ -603,6 +596,31 @@ a, button, .hover-target { cursor: none; }
 }
 .hero-cta svg { transition: transform .4s var(--ease); }
 .hero-cta:hover svg { transform: translateX(4px); }
+
+.hero-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 40px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+  animation: fadeUp 1.2s 2.5s var(--ease-out) forwards;
+}
+.hero-perk {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: rgba(245,241,232,.75);
+}
+.perk-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--champagne);
+  display: inline-block;
+}
 
 .hero-scroll {
   position: absolute;
@@ -1339,9 +1357,9 @@ a, button, .hover-target { cursor: none; }
 .gi-6 { grid-column: span 3; grid-row: span 3; }
 .gi-7 { grid-column: span 3; grid-row: span 4; }
 
-/* ─── EVENTS — eventi in terrazza (cream) ─── */
+/* ─── EVENTS — eventi in terrazza (allineato al resto) ─── */
 .events {
-  background: #ebe3d2;
+  background: var(--paper);
   color: var(--night);
   padding: 200px 0;
   position: relative;
@@ -1350,18 +1368,10 @@ a, button, .hover-target { cursor: none; }
 .events::before {
   content: "";
   position: absolute;
-  top: 80px;
-  right: -4vw;
-  font-family: var(--serif);
-  font-weight: 200;
-  font-style: italic;
-  font-size: 18vw;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  color: rgba(45,74,82,.07);
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--champagne) 50%, transparent);
+  opacity: .4;
 }
 
 .events-head {
@@ -1404,33 +1414,34 @@ a, button, .hover-target { cursor: none; }
 }
 
 .events-filters {
-  display: flex;
-  gap: 10px;
+  display: inline-flex;
+  gap: 4px;
   margin-bottom: 48px;
   flex-wrap: wrap;
   position: relative;
   z-index: 2;
+  background: #e7e0cf;
+  padding: 4px;
+  border-radius: 999px;
+  width: fit-content;
 }
 .event-filter {
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 9px 18px;
-  border: 1px solid var(--line-dark);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  padding: 10px 18px;
+  border: none;
   border-radius: 999px;
   background: transparent;
-  color: rgba(10,13,18,.7);
-  transition: all .25s var(--ease);
+  color: rgba(10,13,18,.6);
+  transition: all .3s var(--ease);
   cursor: none;
   font-weight: 400;
 }
 .event-filter.active {
   background: var(--night);
   color: var(--ivory);
-  border-color: var(--night);
 }
 .event-filter:hover:not(.active) {
-  border-color: var(--night);
   color: var(--night);
 }
 
@@ -1504,21 +1515,32 @@ a, button, .hover-target { cursor: none; }
   flex-wrap: wrap;
 }
 .event-tag {
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 5px 14px 5px 12px;
   border-radius: 999px;
-  font-weight: 500;
-  color: var(--ivory);
-  background: var(--night);
+  font-weight: 400;
+  color: var(--night);
+  background: transparent;
+  border: 1px solid var(--line-dark);
   white-space: nowrap;
 }
-.event-tag.aperitivo    { background: #c46a4f; }
-.event-tag.cena         { background: var(--teal); }
-.event-tag.degustazione { background: #8a7855; }
-.event-tag.colazione    { background: var(--champagne); color: var(--night); }
-.event-tag.musica       { background: #4a2d52; }
+.event-tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--champagne);
+  flex-shrink: 0;
+}
+.event-tag.cena::before         { background: var(--teal); }
+.event-tag.degustazione::before { background: #8a7855; }
+.event-tag.colazione::before    { background: #c46a4f; }
+.event-tag.musica::before       { background: #4a2d52; }
 
 .event-time {
   font-size: 0.82rem;
@@ -2141,17 +2163,34 @@ footer {
 .footer-bottom {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding-top: 32px;
   gap: 24px;
   flex-wrap: wrap;
   font-size: 0.78rem;
   letter-spacing: 0.06em;
 }
+.footer-bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-codes {
+  font-size: 0.72rem;
+  color: rgba(245,241,232,.35);
+  letter-spacing: 0.05em;
+  font-family: var(--sans);
+}
 .footer-bottom-versions {
   display: flex;
   gap: 16px;
+  align-items: center;
 }
+.footer-bottom-versions a {
+  opacity: .6;
+  transition: opacity .25s ease;
+}
+.footer-bottom-versions a:hover { opacity: 1; }
 
 /* ─── REVEAL ─── */
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out); }
@@ -2314,8 +2353,8 @@ footer {
         Lipari <span class="dot"></span> Isole Eolie <span class="dot"></span> Sicilia
       </div>
       <div class="hero-top-right">
-        Stagione 2026<br/>
-        38°28'N · 14°57'E
+        Stagione 2026 · Apr → Ott<br/>
+        Da € 120 a notte
       </div>
     </div>
 
@@ -2327,13 +2366,19 @@ footer {
     </h1>
 
     <div class="hero-bottom">
-      <p>Un'esperienza esclusiva alle Eolie. Dieci camere affacciate sulla storica Rocca di Lipari e sull'isola di Vulcano, aperitivi al tramonto in terrazza, cene d'autore. Dal 1978, una famiglia ti accoglie come si accoglie un amico in un'isola.</p>
+      <p>Un'esperienza esclusiva alle Eolie. Camere con terrazza privata affacciate sulla baia di Lipari, sulla storica Rocca e sull'isola di Vulcano. Aperitivo di benvenuto e transfer aeroporto inclusi — sempre.</p>
       <a href="#prenota" class="hero-cta hover-target">
         Verifica disponibilità
         <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M1 6h16M12 1l5 5-5 5"/>
         </svg>
       </a>
+    </div>
+
+    <div class="hero-perks">
+      <span class="hero-perk"><span class="perk-dot"></span>Aperitivo di benvenuto incluso</span>
+      <span class="hero-perk"><span class="perk-dot"></span>Transfer aeroporto a/r gratuito</span>
+      <span class="hero-perk"><span class="perk-dot"></span>Miglior tariffa garantita</span>
     </div>
   </div>
 
@@ -2375,20 +2420,20 @@ footer {
 
     <div class="counters">
       <div class="counter reveal">
-        <h3 data-count="10">0</h3>
-        <p>Camere uniche</p>
+        <h3 data-count="4">0<small>tipologie</small></h3>
+        <p>Camere · singole, doppie, matrimoniali, junior suite</p>
       </div>
       <div class="counter reveal">
-        <h3 data-count="48">0<small>anni</small></h3>
-        <p>Di accoglienza</p>
+        <h3 data-count="24">0<small>h/7</small></h3>
+        <p>Reception e bar attrezzato</p>
       </div>
       <div class="counter reveal">
-        <h3 data-count="80"><span>0</span><small>m</small></h3>
-        <p>Dal mare</p>
+        <h3 data-count="3">0<small>lingue</small></h3>
+        <p>Italiano · English · Français</p>
       </div>
       <div class="counter reveal">
-        <h3 data-count="4.8">0.0<small>/5</small></h3>
-        <p>600+ recensioni</p>
+        <h3 data-count="7">0<small>mesi</small></h3>
+        <p>Stagione · da aprile a ottobre</p>
       </div>
     </div>
   </div>
@@ -2418,48 +2463,48 @@ footer {
         <article class="room-item active" data-room="1">
           <div class="room-item-num">N° 01 — Suite</div>
           <h3>Junior Suite</h3>
-          <p>Camera d'angolo con terrazza privata affacciata sulla Rocca di Lipari e sull'isola di Vulcano. Vasca freestanding in pietra, scrittoio in noce, due poltrone Mariolina. Il tramonto entra dalla finestra alta come uno spettacolo programmato.</p>
+          <p>La nostra tipologia più ampia, con terrazza privata affacciata sulla Rocca di Lipari e sull'isola di Vulcano. Spazio living, area notte separata, bagno con doccia idromassaggio. Pensata per soggiorni lunghi e per chi cerca silenzio.</p>
           <div class="room-item-foot">
             <div class="room-item-specs">
-              <span>32 m²</span><span>Terrazza</span><span>2 ospiti</span>
+              <span>Terrazza privata</span><span>Vista panoramica</span><span>2 — 3 ospiti</span>
             </div>
-            <div class="room-item-price">€ 240<small>/notte</small></div>
+            <div class="room-item-price">su richiesta</div>
           </div>
         </article>
 
         <article class="room-item" data-room="2">
           <div class="room-item-num">N° 02 — Matrimoniale</div>
-          <h3>Matrimoniale Deluxe</h3>
-          <p>Letto king-size in legno di abete, biancheria di puro lino lavato, soffitti voltati a 3,8 metri. Il bagno è in marmo siciliano levigato a mano. Materiali veri, calmi, lenti.</p>
+          <h3>Camera Matrimoniale</h3>
+          <p>Camera matrimoniale con terrazza privata e vista panoramica sulla baia di Lipari. Bagno con doccia idromassaggio, minibar, cassaforte, aria condizionata indipendente, tutto soundproofed.</p>
           <div class="room-item-foot">
             <div class="room-item-specs">
-              <span>24 m²</span><span>Balcone</span><span>2 ospiti</span>
+              <span>Terrazza privata</span><span>Vista baia</span><span>2 ospiti</span>
             </div>
-            <div class="room-item-price">€ 180<small>/notte</small></div>
+            <div class="room-item-price">da € 120<small>/notte</small></div>
           </div>
         </article>
 
         <article class="room-item" data-room="3">
           <div class="room-item-num">N° 03 — Doppia</div>
-          <h3>Doppia Classic</h3>
-          <p>Due letti singoli separabili — perfetta per amici in viaggio o lavoro lento. Palette eoliana: bianco calce, cobalto, ocra spenta. Una stanza che invita a non fare niente.</p>
+          <h3>Camera Doppia</h3>
+          <p>Doppia con letti separati, terrazza privata, vista panoramica sulla baia. Stessi servizi della matrimoniale: doccia idromassaggio, minibar, cassaforte, TV satellitare, telefono diretto, Wi-Fi.</p>
           <div class="room-item-foot">
             <div class="room-item-specs">
-              <span>20 m²</span><span>Aria cond.</span><span>2 ospiti</span>
+              <span>Terrazza privata</span><span>Vista baia</span><span>2 ospiti</span>
             </div>
-            <div class="room-item-price">€ 150<small>/notte</small></div>
+            <div class="room-item-price">da € 120<small>/notte</small></div>
           </div>
         </article>
 
         <article class="room-item" data-room="4">
           <div class="room-item-num">N° 04 — Singola</div>
-          <h3>Singola Comfort</h3>
-          <p>Per chi viaggia solo. Camera essenziale, luminosa, silenziosa. Scrivania ampia per qualche ora di lavoro la mattina, libreria con titoli scelti per chi resta.</p>
+          <h3>Camera Singola</h3>
+          <p>Per chi viaggia solo. Camera essenziale e silenziosa, con tutti i servizi delle altre tipologie. Aria condizionata indipendente, bagno con doccia idromassaggio, minibar, cassaforte.</p>
           <div class="room-item-foot">
             <div class="room-item-specs">
-              <span>14 m²</span><span>Scrivania</span><span>1 ospite</span>
+              <span>Insonorizzata</span><span>Phon</span><span>1 ospite</span>
             </div>
-            <div class="room-item-price">€ 120<small>/notte</small></div>
+            <div class="room-item-price">da € 120<small>/notte</small></div>
           </div>
         </article>
 
@@ -2475,7 +2520,7 @@ footer {
 
       <div class="breakfast-imgs reveal">
         <div class="b-stamp">
-          <span>Servita fino · alle 11:30 ·</span>
+          <span>Servita 7:30 · 10:00 · ogni giorno ·</span>
         </div>
         <div class="b-main">
           <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1400&q=80" alt="Colazione" />
@@ -2487,39 +2532,39 @@ footer {
 
       <div class="breakfast-text reveal">
         <div class="intro-label">03 — Colazione</div>
-        <h2>La cosa di cui parlano <em>tutti gli ospiti.</em></h2>
-        <p class="quote">"In vacanza la colazione finisce alle undici e mezza. Prima è troppo presto. Dopo è già pranzo."</p>
+        <h2>Un momento da vivere <em>senza fretta.</em></h2>
+        <p class="quote">"Buffet dolce e salato, con materie prime stagionali e dolci preparati ogni giorno dai nostri pasticceri. Servito in sala, in camera o al solarium."</p>
 
         <div class="breakfast-menu">
           <div class="breakfast-row">
             <span class="n">/01</span>
             <div>
-              <h4>Forno del giorno</h4>
-              <p>Brioche, cornetti, cassatine, pane di Castelluccio.</p>
+              <h4>Dolci della casa</h4>
+              <p>Cornetti, torte, pasticceria preparata ogni mattina dai nostri chef pasticceri.</p>
             </div>
             <span class="star">✦</span>
           </div>
           <div class="breakfast-row">
             <span class="n">/02</span>
             <div>
-              <h4>Salato eoliano</h4>
-              <p>Tuma fresca, capperi di Salina, pomodorini al sole.</p>
+              <h4>Salato</h4>
+              <p>Formaggi freschi, uova, salumi, opzioni american-style.</p>
             </div>
             <span class="star">✦</span>
           </div>
           <div class="breakfast-row">
             <span class="n">/03</span>
             <div>
-              <h4>Frutta di stagione</h4>
-              <p>Anguria, fichi, agrumi, melone giallo.</p>
+              <h4>Materie prime stagionali</h4>
+              <p>Frutta dell'isola, prodotti scelti tra i più genuini, di stagione.</p>
             </div>
             <span class="star">✦</span>
           </div>
           <div class="breakfast-row">
             <span class="n">/04</span>
             <div>
-              <h4>Caffetteria d'autore</h4>
-              <p>Espresso, cold brew, infusi e tè selezionati.</p>
+              <h4>Intolleranze & allergie</h4>
+              <p>Scrivici a <a href="mailto:hotel@pinnata.it" style="color:inherit; border-bottom:1px solid currentColor;">hotel@pinnata.it</a> prima dell'arrivo: prepariamo prodotti dedicati.</p>
             </div>
             <span class="star">✦</span>
           </div>
@@ -2711,46 +2756,46 @@ footer {
     <div class="exp-head">
       <div>
         <div class="intro-label intro-label--dark">05 — Esperienze esclusive</div>
-        <h2>Sette isole. <em>Mille modi</em> di scoprirle.</h2>
+        <h2>Servizi e <em>concierge.</em></h2>
       </div>
-      <p>Esperienze costruite con la nostra rete locale: skipper di fiducia, guide del Parco, ristoratori sparsi tra le isole. Riservate ai nostri ospiti — passa il mouse sopra ogni voce.</p>
+      <p>Il nostro concierge organizza ogni dettaglio del soggiorno: escursioni, noleggi, prenotazioni. Alcuni servizi sono inclusi, altri su richiesta — passa il mouse sopra il titolo per vedere ogni esperienza.</p>
     </div>
 
     <div class="exp-list">
       <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80">
         <span class="exp-num">/01</span>
-        <h3>Tour delle sette isole</h3>
-        <span class="exp-meta">1 giorno · da € 95 / p</span>
+        <h3>Escursioni in barca</h3>
+        <span class="exp-meta">Su richiesta · skipper di fiducia</span>
         <span class="exp-arrow">→</span>
       </a>
       <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80">
         <span class="exp-num">/02</span>
-        <h3>Scooter & libertà</h3>
-        <span class="exp-meta">1 — 7 giorni · da € 35</span>
+        <h3>Noleggio scooter, auto e barche</h3>
+        <span class="exp-meta">Mediato dal concierge</span>
         <span class="exp-arrow">→</span>
       </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80">
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80">
         <span class="exp-num">/03</span>
-        <h3>Settimana lenta</h3>
-        <span class="exp-meta">7 notti · —15%</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1503756234508-e32369269deb?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/04</span>
-        <h3>Weekend Stromboli</h3>
-        <span class="exp-meta">2 notti · da € 420</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1582719371651-23fda93af4ce?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/05</span>
-        <h3>Diving & snorkeling</h3>
-        <span class="exp-meta">½ giornata · da € 75</span>
+        <h3>Spiaggia attrezzata a Canneto</h3>
+        <span class="exp-meta">Servizio per i nostri ospiti</span>
         <span class="exp-arrow">→</span>
       </a>
       <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/04</span>
+        <h3>Mezza pensione · ristorante E Pulera</h3>
+        <span class="exp-meta">Cena nel ristorante affiliato</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/05</span>
+        <h3>Transfer aeroporto</h3>
+        <span class="exp-meta">Incluso · arrivo e partenza</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80">
         <span class="exp-num">/06</span>
-        <h3>Cena privata in terrazza</h3>
-        <span class="exp-meta">Su richiesta · da € 120 / p</span>
+        <h3>Prenotazione ristoranti & viaggi</h3>
+        <span class="exp-meta">Concierge dedicato</span>
         <span class="exp-arrow">→</span>
       </a>
     </div>
@@ -3090,9 +3135,13 @@ footer {
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 · Hotel A' Pinnata · Lipari (ME)</span>
+      <div class="footer-bottom-left">
+        <span>© 2026 · Hotel A' Pinnata · Lipari (ME)</span>
+        <span class="footer-codes">CIR 19083041A200079 · CIN IT083041A1YUW2DABV</span>
+      </div>
       <div class="footer-bottom-versions">
-        <a href="scelta.html">← Tutte le versioni</a>
+        <a href="#prenota">Prenota</a>
+        <a href="https://www.pinnata.it/" target="_blank" rel="noopener">Sito originale</a>
       </div>
     </div>
   </div>
@@ -3294,8 +3343,9 @@ footer {
     };
     previewLoop();
 
-    document.querySelectorAll('.exp-link').forEach(link => {
-      link.addEventListener('mouseenter', () => {
+    document.querySelectorAll('.exp-link h3').forEach(title => {
+      const link = title.closest('.exp-link');
+      title.addEventListener('mouseenter', () => {
         const src = link.dataset.img;
         if (src) {
           expPreviewImg.src = src;
@@ -3303,11 +3353,11 @@ footer {
           expPreview.classList.add('visible');
         }
       });
-      link.addEventListener('mouseleave', () => {
+      title.addEventListener('mouseleave', () => {
         expPreview.classList.remove('visible');
         expPreviewImg.classList.remove('show');
       });
-      link.addEventListener('mousemove', e => {
+      title.addEventListener('mousemove', e => {
         px = e.clientX;
         py = e.clientY;
       });
