@@ -2006,13 +2006,19 @@ a, button, .hover-target { cursor: none; }
 .booking h2 {
   font-family: var(--serif);
   font-weight: 200;
-  font-size: clamp(3rem, 7vw, 7rem);
-  line-height: .95;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
   margin: 32px 0 28px;
   max-width: 18ch;
 }
-.booking h2 em { color: #8a7855; }
+.booking h2 em {
+  display: block;
+  color: #8a7855;
+  font-style: italic;
+  font-weight: 200;
+  margin-top: 6px;
+}
 .booking-lede {
   font-size: 1.15rem;
   line-height: 1.55;
@@ -2330,8 +2336,8 @@ footer {
   <nav class="nav-links" aria-label="Navigazione principale">
     <a href="#camere">Camere</a>
     <a href="#colazione">Colazione</a>
+    <a href="#esperienze">Servizi</a>
     <a href="#eventi">Eventi</a>
-    <a href="#esperienze">Esperienze</a>
     <a href="#blog">Diario</a>
     <a href="#dove-siamo">Dove siamo</a>
   </nav>
@@ -2575,12 +2581,68 @@ footer {
   </div>
 </section>
 
+<!-- ─── EXPERIENCES (hover reveal) ─── -->
+<section class="experiences" id="esperienze">
+  <div class="wrap">
+    <div class="exp-head">
+      <div>
+        <div class="intro-label intro-label--dark">04 — Servizi & concierge</div>
+        <h2>Servizi e <em>concierge.</em></h2>
+      </div>
+      <p>Il nostro concierge organizza ogni dettaglio del soggiorno: escursioni, noleggi, prenotazioni. Alcuni servizi sono inclusi, altri su richiesta — passa il mouse sopra il titolo per vedere ogni esperienza.</p>
+    </div>
+
+    <div class="exp-list">
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/01</span>
+        <h3>Escursioni in barca</h3>
+        <span class="exp-meta">Su richiesta · skipper di fiducia</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/02</span>
+        <h3>Noleggio scooter, auto e barche</h3>
+        <span class="exp-meta">Mediato dal concierge</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/03</span>
+        <h3>Spiaggia attrezzata a Canneto</h3>
+        <span class="exp-meta">Servizio per i nostri ospiti</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/04</span>
+        <h3>Mezza pensione · ristorante E Pulera</h3>
+        <span class="exp-meta">Cena nel ristorante affiliato</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/05</span>
+        <h3>Transfer aeroporto</h3>
+        <span class="exp-meta">Incluso · arrivo e partenza</span>
+        <span class="exp-arrow">→</span>
+      </a>
+      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80">
+        <span class="exp-num">/06</span>
+        <h3>Prenotazione ristoranti & viaggi</h3>
+        <span class="exp-meta">Concierge dedicato</span>
+        <span class="exp-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="exp-preview" id="expPreview">
+    <img src="" alt="" id="expPreviewImg" />
+  </div>
+</section>
+
 <!-- ─── EVENTI IN TERRAZZA ─── -->
 <section class="events" id="eventi" aria-labelledby="events-title">
   <div class="wrap">
     <header class="events-head">
       <div>
-        <div class="intro-label">04 — Eventi & Degustazioni</div>
+        <div class="intro-label">05 — Eventi & Degustazioni</div>
         <h2 id="events-title">In terrazza, <em>anche se non sei nostro ospite.</em></h2>
       </div>
       <div class="events-head-right">
@@ -2747,62 +2809,6 @@ footer {
       </a>
     </div>
 
-  </div>
-</section>
-
-<!-- ─── EXPERIENCES (hover reveal) ─── -->
-<section class="experiences" id="esperienze">
-  <div class="wrap">
-    <div class="exp-head">
-      <div>
-        <div class="intro-label intro-label--dark">05 — Esperienze esclusive</div>
-        <h2>Servizi e <em>concierge.</em></h2>
-      </div>
-      <p>Il nostro concierge organizza ogni dettaglio del soggiorno: escursioni, noleggi, prenotazioni. Alcuni servizi sono inclusi, altri su richiesta — passa il mouse sopra il titolo per vedere ogni esperienza.</p>
-    </div>
-
-    <div class="exp-list">
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/01</span>
-        <h3>Escursioni in barca</h3>
-        <span class="exp-meta">Su richiesta · skipper di fiducia</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/02</span>
-        <h3>Noleggio scooter, auto e barche</h3>
-        <span class="exp-meta">Mediato dal concierge</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/03</span>
-        <h3>Spiaggia attrezzata a Canneto</h3>
-        <span class="exp-meta">Servizio per i nostri ospiti</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/04</span>
-        <h3>Mezza pensione · ristorante E Pulera</h3>
-        <span class="exp-meta">Cena nel ristorante affiliato</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/05</span>
-        <h3>Transfer aeroporto</h3>
-        <span class="exp-meta">Incluso · arrivo e partenza</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/06</span>
-        <h3>Prenotazione ristoranti & viaggi</h3>
-        <span class="exp-meta">Concierge dedicato</span>
-        <span class="exp-arrow">→</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="exp-preview" id="expPreview">
-    <img src="" alt="" id="expPreviewImg" />
   </div>
 </section>
 
@@ -3114,8 +3120,8 @@ footer {
         <h6>Hotel</h6>
         <a href="#camere">Camere & Suite</a>
         <a href="#colazione">Colazione</a>
+        <a href="#esperienze">Servizi & concierge</a>
         <a href="#eventi">Eventi & Degustazioni</a>
-        <a href="#esperienze">Esperienze</a>
         <a href="#gallery">Gallery</a>
         <a href="#blog">Diario d'isola</a>
         <a href="#dove-siamo">Dove siamo</a>
