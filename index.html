@@ -1196,9 +1196,6 @@ a, button, .hover-target { cursor: none; }
   font-size: 1.8rem;
   line-height: 1;
   color: var(--champagne);
-  text-align: center;
-  transition: transform .4s var(--ease);
-  display: inline-block;
   width: 28px;
   height: 28px;
   border: 1px solid rgba(201,168,122,.3);
@@ -1207,34 +1204,32 @@ a, button, .hover-target { cursor: none; }
   align-items: center;
   justify-content: center;
 }
-.exp-link[aria-expanded="true"] .exp-arrow {
-  transform: rotate(45deg);
-  background: var(--champagne);
-  color: var(--night);
-  border-color: var(--champagne);
-}
-
-/* Detail panel — accordion */
+/* Detail panel — accordion (display toggle, fade-in via JS-toggled class) */
 .exp-detail {
-  max-height: 0;
+  display: none;
   overflow: hidden;
-  transition: max-height .6s var(--ease);
 }
-.exp-link[aria-expanded="true"] + .exp-detail {
-  max-height: 600px;
+.exp-item.is-open .exp-detail {
+  display: block;
+  animation: expDetailIn .5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .exp-detail-inner {
   padding: 16px 60px 56px;
   display: flex;
   flex-direction: column;
   gap: 36px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity .5s .15s var(--ease), transform .5s .15s var(--ease);
 }
-.exp-link[aria-expanded="true"] + .exp-detail .exp-detail-inner {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes expDetailIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Arrow rotation — handled via inline style in JS (Chrome quirk workaround) */
+.exp-arrow.is-rotated {
+  transform: rotate(45deg);
+  background: var(--champagne);
+  color: var(--night);
+  border-color: var(--champagne);
 }
 .exp-detail-grid {
   display: grid;
@@ -2320,13 +2315,18 @@ footer {
   .experiences { padding: 100px 0; }
   .exp-head { grid-template-columns: 1fr; gap: 24px; padding-bottom: 40px; }
   .exp-link {
-    grid-template-columns: 40px 1fr auto;
+    grid-template-columns: 40px 1fr 32px;
     grid-template-rows: auto auto;
-    gap: 8px 16px;
-    padding: 32px 0;
+    gap: 6px 16px;
+    padding: 28px 0;
   }
-  .exp-link .exp-num { grid-row: 1 / 3; }
-  .exp-meta, .exp-arrow { display: none; }
+  .exp-link .exp-num { grid-row: 1 / 3; align-self: start; padding-top: 4px; }
+  .exp-link h3 { grid-column: 2; font-size: 1.4rem; }
+  .exp-link .exp-meta { grid-column: 2; text-align: left; font-size: 0.7rem; }
+  .exp-link .exp-arrow { grid-column: 3; grid-row: 1 / 3; align-self: center; width: 26px; height: 26px; font-size: 1.4rem; }
+  .exp-detail-inner { padding: 8px 0 36px; }
+  .exp-detail-grid { grid-template-columns: 1fr; gap: 20px; padding-top: 20px; }
+  .exp-detail-cta { padding: 12px 22px; font-size: 0.78rem; }
   .exp-preview { display: none; }
 
   .pull { height: 70vh; min-height: 500px; padding: 0 28px; }
@@ -2873,7 +2873,7 @@ footer {
   </div>
 
   <div class="exp-preview" id="expPreview">
-    <img src="" alt="" id="expPreviewImg" />
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" id="expPreviewImg" />
   </div>
 </section>
 
@@ -3610,18 +3610,28 @@ footer {
     });
   }
 
-  /* ─── EXPERIENCES — accordion toggle ─── */
+  /* ─── EXPERIENCES — accordion toggle (CSS class + arrow class) ─── */
   document.querySelectorAll('.exp-link').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      const item = btn.closest('.exp-item');
+      if (!item) return;
+      const willOpen = !item.classList.contains('is-open');
       // close others (single-open accordion)
-      document.querySelectorAll('.exp-link[aria-expanded="true"]').forEach(other => {
-        if (other !== btn) other.setAttribute('aria-expanded', 'false');
+      document.querySelectorAll('.exp-item.is-open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('is-open');
+          const ob = other.querySelector('.exp-link');
+          if (ob) ob.setAttribute('aria-expanded', 'false');
+          const oa = other.querySelector('.exp-arrow');
+          if (oa) oa.classList.remove('is-rotated');
+        }
       });
-      btn.setAttribute('aria-expanded', String(!isOpen));
-      // hide hover preview while detail is open
-      if (!isOpen) {
+      item.classList.toggle('is-open', willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+      const arrow = btn.querySelector('.exp-arrow');
+      if (arrow) arrow.classList.toggle('is-rotated', willOpen);
+      if (willOpen) {
         const expPreview = document.getElementById('expPreview');
         if (expPreview) expPreview.classList.remove('visible');
       }
