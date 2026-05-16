@@ -451,6 +451,98 @@ a, button, .hover-target { cursor: none; }
   50% { transform: scale(.7); opacity: .5; }
 }
 
+/* ─── BURGER + MOBILE NAV ─── */
+.nav-burger {
+  display: none;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  margin-left: 12px;
+  z-index: 101;
+}
+.nav-burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ivory);
+  transition: transform .35s var(--ease), opacity .25s ease, background .3s ease;
+  transform-origin: center;
+}
+.nav.light .nav-burger span { background: var(--night); }
+.nav-burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ivory); }
+.nav-burger.is-open span:nth-child(2) { opacity: 0; }
+.nav-burger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ivory); }
+
+.nav-mobile {
+  position: fixed;
+  inset: 0;
+  background: var(--night);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 32px 40px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease), visibility .4s;
+}
+.nav-mobile.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav-mobile-links a {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 7vw, 2.2rem);
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(245,241,232,.08);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  transition: color .25s ease, padding-left .35s var(--ease);
+}
+.nav-mobile-links a::before {
+  content: attr(data-num);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--champagne);
+  font-weight: 400;
+}
+.nav-mobile-links a:hover,
+.nav-mobile-links a:active { color: var(--champagne); padding-left: 8px; }
+.nav-mobile-foot {
+  margin-top: auto;
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: rgba(245,241,232,.7);
+}
+.nav-mobile-foot a {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(245,241,232,.1);
+}
+body.nav-open { overflow: hidden; }
+
 /* ─── HERO ─── */
 .hero {
   position: relative;
@@ -2290,11 +2382,16 @@ footer {
 @media (max-width: 1024px) {
   body { cursor: auto; }
   .wrap, .nav { padding-left: 28px; padding-right: 28px; }
-  .nav { grid-template-columns: auto auto; gap: 16px; }
+  .nav { grid-template-columns: 1fr auto auto; gap: 12px; }
   .nav-links { display: none; }
+  .nav-burger { display: flex; }
+  .nav-cta { padding: 10px 18px; font-size: 0.74rem; letter-spacing: 0.14em; }
   .hero-content { padding: 120px 28px 80px; }
-  .hero-top { flex-direction: column; gap: 24px; }
-  .hero-top-right { text-align: left; }
+  .hero-top { flex-direction: column; gap: 24px; margin-bottom: 56px; }
+  .hero-top-right { display: none; }
+  .hero-meta { font-size: 0.7rem; letter-spacing: 0.24em; padding: 6px 14px; }
+  .hero-perks { gap: 16px 24px; margin-top: 32px; padding-top: 24px; }
+  .hero-perk { font-size: 0.76rem; gap: 10px; }
   .hero-bottom { grid-template-columns: 1fr; gap: 32px; }
 
   .intro { padding: 100px 0; }
@@ -2309,7 +2406,13 @@ footer {
 
   .breakfast { padding: 100px 0; }
   .breakfast-grid { grid-template-columns: 1fr; gap: 64px; }
-  .breakfast-imgs .b-stamp { width: 100px; height: 100px; font-size: 0.8rem; }
+  .breakfast-imgs .b-stamp {
+    width: 96px; height: 96px;
+    font-size: 0.72rem;
+    top: auto; bottom: -16px; left: auto; right: -10px;
+    padding: 12px;
+  }
+  .breakfast-imgs .b-side { width: 38%; bottom: auto; right: auto; top: -14px; left: -14px; }
   .breakfast-imgs .b-side { width: 40%; bottom: -20px; right: -20px; }
 
   .experiences { padding: 100px 0; }
@@ -2395,7 +2498,9 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .marquee-item { font-size: 1.8rem; gap: 40px; }
+  .marquee { padding: 22px 0; }
+  .marquee-item { font-size: 1.4rem; gap: 32px; }
+  .marquee-track { gap: 32px; }
   .marquee-track { gap: 40px; }
   .counters { grid-template-columns: 1fr; gap: 24px; }
   .booking-form { grid-template-columns: 1fr; }
@@ -2434,7 +2539,28 @@ footer {
     <span class="pulse"></span>
     Prenota
   </a>
+  <button class="nav-burger" id="navBurger" aria-label="Apri menu" aria-expanded="false" aria-controls="navMobile">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<!-- Mobile fullscreen menu -->
+<aside class="nav-mobile" id="navMobile" aria-hidden="true">
+  <nav class="nav-mobile-links" aria-label="Menu mobile">
+    <a href="#camere" data-num="01">Camere & Suite</a>
+    <a href="#colazione" data-num="02">Colazione</a>
+    <a href="#esperienze" data-num="03">Servizi & concierge</a>
+    <a href="#eventi" data-num="04">Eventi & Degustazioni</a>
+    <a href="#gallery" data-num="05">Gallery</a>
+    <a href="#blog" data-num="06">Diario d'isola</a>
+    <a href="#dove-siamo" data-num="07">Dove siamo</a>
+    <a href="#prenota" data-num="08">Prenota</a>
+  </nav>
+  <div class="nav-mobile-foot">
+    <a href="tel:+390909811697">090 9811697</a>
+    <a href="mailto:hotel@pinnata.it">hotel@pinnata.it</a>
+  </div>
+</aside>
 
 <!-- ─── HERO ─── -->
 <section class="hero" id="top">
@@ -2678,7 +2804,7 @@ footer {
         <div class="intro-label intro-label--dark">04 — Servizi & concierge</div>
         <h2>Servizi e <em>concierge.</em></h2>
       </div>
-      <p>Il nostro concierge organizza ogni dettaglio del soggiorno: escursioni, noleggi, prenotazioni. Alcuni servizi sono inclusi, altri su richiesta — passa il mouse sopra il titolo per vedere ogni esperienza.</p>
+      <p>Il nostro concierge organizza ogni dettaglio del soggiorno: escursioni, noleggi, prenotazioni. Alcuni servizi sono inclusi, altri su richiesta — apri ciascuna voce per scoprire i dettagli.</p>
     </div>
 
     <div class="exp-list">
@@ -3450,6 +3576,25 @@ footer {
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ─── MOBILE BURGER MENU ─── */
+  const burger = document.getElementById('navBurger');
+  const mobile = document.getElementById('navMobile');
+  const setMenu = (open) => {
+    burger.classList.toggle('is-open', open);
+    mobile.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    mobile.setAttribute('aria-hidden', String(!open));
+    burger.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+    document.body.classList.toggle('nav-open', open);
+  };
+  if (burger && mobile) {
+    burger.addEventListener('click', () => setMenu(!mobile.classList.contains('is-open')));
+    mobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobile.classList.contains('is-open')) setMenu(false);
+    });
+  }
 
   /* ─── EVENTS FILTER ─── */
   const filters = document.querySelectorAll('.event-filter');
