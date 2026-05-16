@@ -1127,17 +1127,26 @@ a, button, .hover-target { cursor: none; }
   display: flex;
   flex-direction: column;
 }
+.exp-item {
+  border-top: 1px solid var(--line);
+}
+.exp-item:last-child { border-bottom: 1px solid var(--line); }
 .exp-link {
   display: grid;
-  grid-template-columns: 60px 1fr auto 200px;
+  grid-template-columns: 60px 1fr auto 60px;
   gap: 32px;
   padding: 44px 0;
-  border-top: 1px solid var(--line);
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
   align-items: center;
   position: relative;
   transition: padding .5s var(--ease), color .5s var(--ease);
+  color: inherit;
+  font: inherit;
+  cursor: none;
 }
-.exp-link:last-child { border-bottom: 1px solid var(--line); }
 .exp-link:hover {
   padding-left: 16px;
   padding-right: 16px;
@@ -1167,7 +1176,8 @@ a, button, .hover-target { cursor: none; }
   line-height: 1;
   letter-spacing: -0.025em;
   color: var(--ivory);
-  transition: transform .5s var(--ease);
+  transition: transform .5s var(--ease), color .3s var(--ease);
+  margin: 0;
 }
 .exp-link:hover h3 {
   transform: translateX(8px);
@@ -1183,12 +1193,91 @@ a, button, .hover-target { cursor: none; }
 .exp-arrow {
   font-family: var(--serif);
   font-weight: 200;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  line-height: 1;
   color: var(--champagne);
-  text-align: right;
-  transition: transform .5s var(--ease);
+  text-align: center;
+  transition: transform .4s var(--ease);
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(201,168,122,.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.exp-link:hover .exp-arrow { transform: translateX(8px); }
+.exp-link[aria-expanded="true"] .exp-arrow {
+  transform: rotate(45deg);
+  background: var(--champagne);
+  color: var(--night);
+  border-color: var(--champagne);
+}
+
+/* Detail panel — accordion */
+.exp-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .6s var(--ease);
+}
+.exp-link[aria-expanded="true"] + .exp-detail {
+  max-height: 600px;
+}
+.exp-detail-inner {
+  padding: 16px 60px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity .5s .15s var(--ease), transform .5s .15s var(--ease);
+}
+.exp-link[aria-expanded="true"] + .exp-detail .exp-detail-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+.exp-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.exp-detail h4 {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  margin-bottom: 10px;
+}
+.exp-detail p {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(245,241,232,.7);
+}
+.exp-detail-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  background: transparent;
+  border: 1px solid var(--champagne);
+  border-radius: 999px;
+  padding: 14px 26px;
+  transition: all .3s var(--ease);
+}
+.exp-detail-cta:hover {
+  background: var(--champagne);
+  color: var(--night);
+}
+.exp-detail-cta svg { transition: transform .3s var(--ease); }
+.exp-detail-cta:hover svg { transform: translateX(4px); }
 
 /* Floating image preview */
 .exp-preview {
@@ -2593,42 +2682,193 @@ footer {
     </div>
 
     <div class="exp-list">
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/01</span>
-        <h3>Escursioni in barca</h3>
-        <span class="exp-meta">Su richiesta · skipper di fiducia</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/02</span>
-        <h3>Noleggio scooter, auto e barche</h3>
-        <span class="exp-meta">Mediato dal concierge</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/03</span>
-        <h3>Spiaggia attrezzata a Canneto</h3>
-        <span class="exp-meta">Servizio per i nostri ospiti</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/04</span>
-        <h3>Mezza pensione · ristorante E Pulera</h3>
-        <span class="exp-meta">Cena nel ristorante affiliato</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/05</span>
-        <h3>Transfer aeroporto</h3>
-        <span class="exp-meta">Incluso · arrivo e partenza</span>
-        <span class="exp-arrow">→</span>
-      </a>
-      <a href="#prenota" class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80">
-        <span class="exp-num">/06</span>
-        <h3>Prenotazione ristoranti & viaggi</h3>
-        <span class="exp-meta">Concierge dedicato</span>
-        <span class="exp-arrow">→</span>
-      </a>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-1">
+          <span class="exp-num">/01</span>
+          <h3>Escursioni in barca</h3>
+          <span class="exp-meta">Su richiesta · skipper di fiducia</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-1">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Skipper privato, carburante, attrezzatura per snorkeling, pranzo leggero a bordo.</p>
+              </div>
+              <div>
+                <h4>Durata</h4>
+                <p>Mezza giornata o giornata intera, in base alle preferenze.</p>
+              </div>
+              <div>
+                <h4>Itinerari</h4>
+                <p>Tour delle 7 isole, cale segrete, snorkeling sotto le pareti di Vulcano.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Richiedi questa esperienza
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-2">
+          <span class="exp-num">/02</span>
+          <h3>Noleggio scooter, auto e barche</h3>
+          <span class="exp-meta">Mediato dal concierge</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-2">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Mezzo, caschi o giubbotti di salvataggio, mappa con i nostri itinerari segreti.</p>
+              </div>
+              <div>
+                <h4>Durata</h4>
+                <p>Da una giornata a una settimana, in base ai vostri ritmi.</p>
+              </div>
+              <div>
+                <h4>Dove</h4>
+                <p>Ritiro e consegna direttamente dall'hotel, senza spostamenti.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Richiedi questo servizio
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-3">
+          <span class="exp-num">/03</span>
+          <h3>Spiaggia attrezzata a Canneto</h3>
+          <span class="exp-meta">Servizio per i nostri ospiti</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-3">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Ombrellone e lettini riservati, accesso allo stabilimento partner.</p>
+              </div>
+              <div>
+                <h4>Quando</h4>
+                <p>Tutti i giorni durante la stagione, secondo orari prestabiliti.</p>
+              </div>
+              <div>
+                <h4>Per chi</h4>
+                <p>Servizio dedicato esclusivamente ai nostri ospiti.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Prenota il tuo soggiorno
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-4">
+          <span class="exp-num">/04</span>
+          <h3>Mezza pensione · ristorante E Pulera</h3>
+          <span class="exp-meta">Cena nel ristorante affiliato</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-4">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Cena nel ristorante affiliato E Pulera, tavolo riservato ogni sera.</p>
+              </div>
+              <div>
+                <h4>Cucina</h4>
+                <p>Tradizione siciliana rivisitata, materie prime locali e di stagione.</p>
+              </div>
+              <div>
+                <h4>Come</h4>
+                <p>Da aggiungere in fase di prenotazione del soggiorno o all'arrivo.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Aggiungi la mezza pensione
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-5">
+          <span class="exp-num">/05</span>
+          <h3>Transfer aeroporto</h3>
+          <span class="exp-meta">Incluso · arrivo e partenza</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-5">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Trasporto privato dall'aeroporto al porto di Milazzo e dal porto di Lipari all'hotel — a/r.</p>
+              </div>
+              <div>
+                <h4>Quando</h4>
+                <p>Sempre, in arrivo e in partenza, qualunque sia il vostro orario.</p>
+              </div>
+              <div>
+                <h4>Per chi</h4>
+                <p>Servizio incluso nel soggiorno per tutti i nostri ospiti.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Comunicaci il tuo arrivo
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <button class="exp-link hover-target" data-img="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=900&q=80" aria-expanded="false" aria-controls="exp-detail-6">
+          <span class="exp-num">/06</span>
+          <h3>Prenotazione ristoranti & viaggi</h3>
+          <span class="exp-meta">Concierge dedicato</span>
+          <span class="exp-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="exp-detail" id="exp-detail-6">
+          <div class="exp-detail-inner">
+            <div class="exp-detail-grid">
+              <div>
+                <h4>Cosa include</h4>
+                <p>Mediazione con i migliori ristoranti dell'arcipelago e organizzazione di escursioni private.</p>
+              </div>
+              <div>
+                <h4>Anche</h4>
+                <p>Pianificazione viaggi interisole, biglietti aliscafi, tavoli "introvabili".</p>
+              </div>
+              <div>
+                <h4>Come</h4>
+                <p>Parlate con il nostro concierge in qualsiasi momento durante il soggiorno.</p>
+              </div>
+            </div>
+            <a href="#prenota" class="exp-detail-cta hover-target">
+              Prenota il tuo soggiorno
+              <svg width="16" height="11" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
     </div>
   </div>
 
@@ -2857,7 +3097,7 @@ footer {
       </div>
       <div class="blog-head-right">
         <p>Un piccolo magazine di famiglia: ricette delle nonne, sentieri raccontati a memoria, consigli per chi sta per arrivare.</p>
-        <a href="/blog" class="blog-head-cta hover-target">
+        <a href="/diario" class="blog-head-cta hover-target">
           Tutti gli articoli
           <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M1 6h16M12 1l5 5-5 5"/>
@@ -2869,7 +3109,7 @@ footer {
     <div class="blog-grid">
 
       <article class="blog-card reveal">
-        <a href="/blog/capperi-salina" class="blog-card-img hover-target" aria-label="Leggi: I capperi di Salina">
+        <a href="/diario" class="blog-card-img hover-target" aria-label="Leggi: I capperi di Salina">
           <img src="https://images.unsplash.com/photo-1452696193712-6cabf5103b63?auto=format&fit=crop&w=900&q=80" alt="Capperi di Salina raccolti a mano" loading="lazy" />
         </a>
         <div class="blog-card-meta">
@@ -2878,14 +3118,14 @@ footer {
           <time datetime="2026-05-08">8 Mag 2026</time>
         </div>
         <h3>
-          <a href="/blog/capperi-salina">I capperi di Salina, la nostra ricetta di famiglia</a>
+          <a href="/diario">I capperi di Salina, la nostra ricetta di famiglia</a>
         </h3>
         <p>Come li raccogliamo, come li mettiamo sotto sale, e perché la marmellata di capperi è la prima cosa che metto in tavola a colazione da quarant'anni.</p>
-        <a href="/blog/capperi-salina" class="blog-card-link hover-target">Leggi l'articolo →</a>
+        <a href="/diario" class="blog-card-link hover-target">Leggi l'articolo →</a>
       </article>
 
       <article class="blog-card reveal">
-        <a href="/blog/tramonti-eolie" class="blog-card-img hover-target" aria-label="Leggi: Cinque tramonti sulle Eolie">
+        <a href="/diario" class="blog-card-img hover-target" aria-label="Leggi: Cinque tramonti sulle Eolie">
           <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&w=900&q=80" alt="Tramonto sulle Isole Eolie" loading="lazy" />
         </a>
         <div class="blog-card-meta">
@@ -2894,14 +3134,14 @@ footer {
           <time datetime="2026-04-22">22 Apr 2026</time>
         </div>
         <h3>
-          <a href="/blog/tramonti-eolie">Cinque tramonti da non perdere sulle Eolie</a>
+          <a href="/diario">Cinque tramonti da non perdere sulle Eolie</a>
         </h3>
         <p>Quaranta-otto anni di tramonti, ridotti a cinque. Dalla terrazza di casa al Belvedere Quattrocchi, da Pollara fino allo Stromboli che si accende.</p>
-        <a href="/blog/tramonti-eolie" class="blog-card-link hover-target">Leggi l'articolo →</a>
+        <a href="/diario" class="blog-card-link hover-target">Leggi l'articolo →</a>
       </article>
 
       <article class="blog-card reveal">
-        <a href="/blog/trekking-stromboli" class="blog-card-img hover-target" aria-label="Leggi: Trekking Stromboli">
+        <a href="/diario" class="blog-card-img hover-target" aria-label="Leggi: Trekking Stromboli">
           <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80" alt="Sentiero di trekking allo Stromboli" loading="lazy" />
         </a>
         <div class="blog-card-meta">
@@ -2910,10 +3150,10 @@ footer {
           <time datetime="2026-04-04">4 Apr 2026</time>
         </div>
         <h3>
-          <a href="/blog/trekking-stromboli">Un weekend di trekking sullo Stromboli</a>
+          <a href="/diario">Un weekend di trekking sullo Stromboli</a>
         </h3>
         <p>Cosa portare, dove dormire, quanto allenarsi prima di partire — la nostra guida pratica al vulcano più cinematografico del Mediterraneo.</p>
-        <a href="/blog/trekking-stromboli" class="blog-card-link hover-target">Leggi l'articolo →</a>
+        <a href="/diario" class="blog-card-link hover-target">Leggi l'articolo →</a>
       </article>
 
     </div>
@@ -3369,6 +3609,24 @@ footer {
       });
     });
   }
+
+  /* ─── EXPERIENCES — accordion toggle ─── */
+  document.querySelectorAll('.exp-link').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      // close others (single-open accordion)
+      document.querySelectorAll('.exp-link[aria-expanded="true"]').forEach(other => {
+        if (other !== btn) other.setAttribute('aria-expanded', 'false');
+      });
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      // hide hover preview while detail is open
+      if (!isOpen) {
+        const expPreview = document.getElementById('expPreview');
+        if (expPreview) expPreview.classList.remove('visible');
+      }
+    });
+  });
 
   /* ─── BOOKING dates ─── */
   const di = document.querySelector('input[type="date"]');
