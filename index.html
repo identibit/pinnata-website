@@ -981,126 +981,130 @@ body.nav-open { overflow: hidden; }
 }
 .rooms-head h2 em { color: var(--champagne-soft); }
 
-.rooms-pinned {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.rooms-grid {
+  display: flex;
+  flex-direction: column;
   gap: 80px;
-  align-items: start;
-  min-height: 100vh;
 }
-.rooms-visual {
-  position: sticky;
-  top: 120px;
-  aspect-ratio: 4/5;
+.room-card {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: 64px;
+  align-items: center;
+  padding-bottom: 80px;
+  border-bottom: 1px solid var(--line);
+}
+.room-card:last-child { padding-bottom: 0; border-bottom: none; }
+/* Alternate image side: 2nd and 4th have image on the right */
+.room-card:nth-child(even) .room-card-img { order: 2; }
+
+.room-card-img {
+  position: relative;
+  aspect-ratio: 4/3;
   overflow: hidden;
   border-radius: 4px;
 }
-.rooms-visual-stack {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.rooms-visual-stack img {
-  position: absolute;
-  inset: 0;
+.room-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 1s var(--ease-out), transform 1.5s var(--ease-out);
+  transition: transform 1.1s var(--ease-out);
 }
-.rooms-visual-stack img.active {
-  opacity: 1;
-  transform: scale(1);
-}
-.rooms-visual-number {
+.room-card:hover .room-card-img img { transform: scale(1.04); }
+.room-card-tag {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  z-index: 2;
-  font-family: var(--serif);
-  font-weight: 200;
-  font-size: 0.95rem;
-  letter-spacing: 0.2em;
-  color: var(--ivory);
-  background: rgba(10,13,18,.45);
-  backdrop-filter: blur(8px);
-  padding: 8px 16px;
+  top: 18px; left: 18px;
+  background: var(--champagne);
+  color: var(--night);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(245,241,232,.2);
+  font-weight: 500;
+  z-index: 2;
 }
 
-.rooms-list {
+.room-card-body {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
-.room-item {
-  padding: 80px 0;
-  border-bottom: 1px solid var(--line);
-  transition: opacity .6s var(--ease);
-  opacity: .35;
-}
-.room-item:first-child { padding-top: 0; }
-.room-item.active { opacity: 1; }
-.room-item-num {
+.room-card-num {
   font-family: var(--serif);
   font-weight: 200;
   font-style: italic;
   font-size: 1rem;
   color: var(--champagne);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   letter-spacing: 0.04em;
 }
-.room-item h3 {
+.room-card-body h3 {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(2rem, 3.6vw, 3.4rem);
+  font-size: clamp(2rem, 3.4vw, 3rem);
   letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 32px;
+  line-height: 1.02;
+  margin-bottom: 24px;
   color: var(--ivory);
 }
-.room-item p {
-  font-size: 1.05rem;
+.room-card-body > p {
+  font-size: 1.02rem;
   line-height: 1.55;
   color: rgba(245,241,232,.7);
-  margin-bottom: 40px;
-  max-width: 44ch;
+  margin-bottom: 28px;
   font-weight: 300;
 }
-.room-item-foot {
+.room-card-specs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.room-card-specs li {
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  background: rgba(245,241,232,.06);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: rgba(245,241,232,.75);
+}
+.room-card-foot {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 24px;
+  align-items: center;
+  gap: 20px;
   padding-top: 28px;
   border-top: 1px solid var(--line);
+  flex-wrap: wrap;
 }
-.room-item-specs {
-  display: flex;
-  gap: 24px;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(245,241,232,.55);
-}
-.room-item-price {
+.room-card-price {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: var(--champagne);
   letter-spacing: -0.01em;
 }
-.room-item-price small {
+.room-card-price small {
   font-family: var(--sans);
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: rgba(245,241,232,.5);
   text-transform: uppercase;
-  margin-left: 6px;
+  margin-left: 4px;
 }
+.room-card-cta {
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  border-bottom: 1px solid var(--ivory);
+  padding-bottom: 4px;
+  transition: all .3s var(--ease);
+}
+.room-card-cta:hover { color: var(--champagne); border-color: var(--champagne); padding-right: 6px; }
 
 /* ─── BREAKFAST — light section ─── */
 .breakfast {
@@ -2463,10 +2467,17 @@ footer {
   .intro-title { position: static; }
   .counters { grid-template-columns: 1fr 1fr; gap: 32px; }
 
-  .rooms-pinned { grid-template-columns: 1fr; gap: 48px; }
-  .rooms-visual { position: relative; top: 0; aspect-ratio: 16/10; }
-  .room-item { padding: 56px 0; }
-  .room-item:first-child { padding-top: 0; }
+  .rooms-grid { gap: 56px; }
+  .room-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-bottom: 56px;
+  }
+  /* on mobile: always image on top, regardless of nth-child */
+  .room-card:nth-child(even) .room-card-img { order: 0; }
+  .room-card-img { aspect-ratio: 16/10; }
+  .room-card-body h3 { font-size: 1.8rem; margin-bottom: 18px; }
+  .room-card-foot { padding-top: 20px; gap: 12px; }
 
   .breakfast { padding: 100px 0; }
   .breakfast-grid { grid-template-columns: 1fr; gap: 64px; }
@@ -2733,7 +2744,7 @@ footer {
   </div>
 </section>
 
-<!-- ─── ROOMS PINNED ─── -->
+<!-- ─── ROOMS — alternating cards ─── -->
 <section class="rooms" id="camere">
   <div class="wrap">
     <div class="rooms-head">
@@ -2741,68 +2752,93 @@ footer {
       <h2>Dieci stanze. <em>Una storia diversa</em> per ognuna.</h2>
     </div>
 
-    <div class="rooms-pinned">
+    <div class="rooms-grid">
 
-      <div class="rooms-visual">
-        <div class="rooms-visual-number" id="roomNum">N° 01</div>
-        <div class="rooms-visual-stack" id="roomStack">
-          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/lipari-junior-suite-3-1-510x510.jpg" alt="Junior Suite" class="active" data-room="1" />
-          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-matrimoniale-510x510.jpg" alt="Matrimoniale" data-room="2" />
-          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-doppia-510x510.jpg" alt="Doppia" data-room="3" />
-          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-singola-510x510.jpg" alt="Singola" data-room="4" />
+      <article class="room-card reveal">
+        <div class="room-card-img">
+          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/lipari-junior-suite-3-1-510x510.jpg" alt="Junior Suite Hotel A' Pinnata Lipari" />
+          <span class="room-card-tag">Più richiesta</span>
         </div>
-      </div>
-
-      <div class="rooms-list">
-        <article class="room-item active" data-room="1">
-          <div class="room-item-num">N° 01 — Suite</div>
+        <div class="room-card-body">
+          <div class="room-card-num">N° 01 — Suite</div>
           <h3>Junior Suite</h3>
           <p>La nostra tipologia più ampia, con terrazza privata affacciata sulla Rocca di Lipari e sull'isola di Vulcano. Spazio living, area notte separata, bagno con doccia idromassaggio. Pensata per soggiorni lunghi e per chi cerca silenzio.</p>
-          <div class="room-item-foot">
-            <div class="room-item-specs">
-              <span>Terrazza privata</span><span>Vista panoramica</span><span>2 — 3 ospiti</span>
-            </div>
-            <div class="room-item-price">su richiesta</div>
+          <ul class="room-card-specs">
+            <li>Terrazza privata</li>
+            <li>Vista panoramica</li>
+            <li>2 — 3 ospiti</li>
+            <li>Doccia idromassaggio</li>
+          </ul>
+          <div class="room-card-foot">
+            <div class="room-card-price">su richiesta</div>
+            <a href="#prenota" class="room-card-cta">Prenota questa camera →</a>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article class="room-item" data-room="2">
-          <div class="room-item-num">N° 02 — Matrimoniale</div>
+      <article class="room-card reveal">
+        <div class="room-card-img">
+          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-matrimoniale-510x510.jpg" alt="Camera Matrimoniale Hotel A' Pinnata" />
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-num">N° 02 — Matrimoniale</div>
           <h3>Camera Matrimoniale</h3>
-          <p>Camera matrimoniale con terrazza privata e vista panoramica sulla baia di Lipari. Bagno con doccia idromassaggio, minibar, cassaforte, aria condizionata indipendente, tutto soundproofed.</p>
-          <div class="room-item-foot">
-            <div class="room-item-specs">
-              <span>Terrazza privata</span><span>Vista baia</span><span>2 ospiti</span>
-            </div>
-            <div class="room-item-price">da € 120<small>/notte</small></div>
+          <p>Letto matrimoniale, terrazza privata e vista panoramica sulla baia di Lipari. Bagno con doccia idromassaggio, minibar, cassaforte, aria condizionata indipendente. Tutto insonorizzato.</p>
+          <ul class="room-card-specs">
+            <li>Terrazza privata</li>
+            <li>Vista baia</li>
+            <li>2 ospiti</li>
+            <li>Insonorizzata</li>
+          </ul>
+          <div class="room-card-foot">
+            <div class="room-card-price">da € 120<small>/notte</small></div>
+            <a href="#prenota" class="room-card-cta">Prenota questa camera →</a>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article class="room-item" data-room="3">
-          <div class="room-item-num">N° 03 — Doppia</div>
+      <article class="room-card reveal">
+        <div class="room-card-img">
+          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-doppia-510x510.jpg" alt="Camera Doppia Hotel A' Pinnata" />
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-num">N° 03 — Doppia</div>
           <h3>Camera Doppia</h3>
           <p>Doppia con letti separati, terrazza privata, vista panoramica sulla baia. Stessi servizi della matrimoniale: doccia idromassaggio, minibar, cassaforte, TV satellitare, telefono diretto, Wi-Fi.</p>
-          <div class="room-item-foot">
-            <div class="room-item-specs">
-              <span>Terrazza privata</span><span>Vista baia</span><span>2 ospiti</span>
-            </div>
-            <div class="room-item-price">da € 120<small>/notte</small></div>
+          <ul class="room-card-specs">
+            <li>Terrazza privata</li>
+            <li>Vista baia</li>
+            <li>2 ospiti</li>
+            <li>Letti separati</li>
+          </ul>
+          <div class="room-card-foot">
+            <div class="room-card-price">da € 120<small>/notte</small></div>
+            <a href="#prenota" class="room-card-cta">Prenota questa camera →</a>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article class="room-item" data-room="4">
-          <div class="room-item-num">N° 04 — Singola</div>
+      <article class="room-card reveal">
+        <div class="room-card-img">
+          <img src="https://www.pinnata.it/wp-content/uploads/2023/02/camera-singola-510x510.jpg" alt="Camera Singola Hotel A' Pinnata" />
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-num">N° 04 — Singola</div>
           <h3>Camera Singola</h3>
-          <p>Per chi viaggia solo. Camera essenziale e silenziosa, con tutti i servizi delle altre tipologie. Aria condizionata indipendente, bagno con doccia idromassaggio, minibar, cassaforte.</p>
-          <div class="room-item-foot">
-            <div class="room-item-specs">
-              <span>Insonorizzata</span><span>Phon</span><span>1 ospite</span>
-            </div>
-            <div class="room-item-price">da € 120<small>/notte</small></div>
+          <p>Per chi viaggia solo. Camera essenziale e silenziosa, con tutti i servizi delle altre tipologie: aria condizionata indipendente, bagno con doccia idromassaggio, minibar, cassaforte, Wi-Fi.</p>
+          <ul class="room-card-specs">
+            <li>Insonorizzata</li>
+            <li>Phon &amp; minibar</li>
+            <li>1 ospite</li>
+            <li>Scrivania</li>
+          </ul>
+          <div class="room-card-foot">
+            <div class="room-card-price">da € 120<small>/notte</small></div>
+            <a href="#prenota" class="room-card-cta">Prenota questa camera →</a>
           </div>
-        </article>
+        </div>
+      </article>
 
-      </div>
     </div>
   </div>
 </section>
@@ -3806,24 +3842,6 @@ footer {
       });
     }, { threshold: 0.5 });
     counters.forEach(c => cio.observe(c));
-  }
-
-  /* ─── ROOMS — pinned sync ─── */
-  const roomItems = document.querySelectorAll('.room-item');
-  const roomImgs  = document.querySelectorAll('#roomStack img');
-  const roomNum   = document.getElementById('roomNum');
-  if ('IntersectionObserver' in window && roomItems.length) {
-    const rio = new IntersectionObserver(es => {
-      es.forEach(e => {
-        if (e.isIntersecting && e.intersectionRatio > 0.3) {
-          const idx = e.target.dataset.room;
-          roomItems.forEach(r => r.classList.toggle('active', r.dataset.room === idx));
-          roomImgs.forEach(i => i.classList.toggle('active', i.dataset.room === idx));
-          roomNum.textContent = `N° 0${idx}`;
-        }
-      });
-    }, { threshold: [0.3, 0.5, 0.7] });
-    roomItems.forEach(r => rio.observe(r));
   }
 
   /* ─── EXPERIENCES — hover image preview ─── */
