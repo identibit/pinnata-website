@@ -569,17 +569,70 @@ body.nav-open { overflow: hidden; }
   inset: 0;
   z-index: 0;
 }
-.hero-bg img {
+.hero-slide {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 110%;
   object-fit: cover;
-  filter: brightness(.65) saturate(.85);
-  transform: scale(1.05);
-  animation: heroIntro 2.5s 1.2s var(--ease-out) both;
+  filter: brightness(.55) saturate(.9);
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 1.6s var(--ease-out);
+  will-change: opacity, transform;
 }
-@keyframes heroIntro {
-  from { transform: scale(1.2); filter: brightness(.4) saturate(.7); }
-  to   { transform: scale(1.05); filter: brightness(.65) saturate(.85); }
+.hero-slide.is-active {
+  opacity: 1;
+  animation: heroKenBurns 9s linear forwards;
+}
+@keyframes heroKenBurns {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.13); }
+}
+/* first-load intro: first slide does a deeper fade-in from very dark */
+.hero-slide.is-active.is-first {
+  animation: heroFirstIn 2.4s .2s var(--ease-out) both, heroKenBurns 9s 2.4s linear forwards;
+}
+@keyframes heroFirstIn {
+  from { opacity: 0; filter: brightness(.2) saturate(.5); transform: scale(1.16); }
+  to   { opacity: 1; filter: brightness(.55) saturate(.9); transform: scale(1.04); }
+}
+
+/* Pagination dots */
+.hero-dots {
+  position: absolute;
+  bottom: 110px;
+  right: 56px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 1s 2.8s var(--ease-out) forwards;
+}
+.hero-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(245,241,232,.5);
+  cursor: pointer;
+  padding: 0;
+  transition: all .35s var(--ease);
+  position: relative;
+}
+.hero-dot::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+.hero-dot:hover { border-color: var(--ivory); }
+.hero-dot.is-active {
+  background: var(--champagne);
+  border-color: var(--champagne);
+  transform: scale(1.2);
+}
+@media (max-width: 1024px) {
+  .hero-dots { right: 22px; bottom: 90px; }
 }
 .hero-bg::after {
   content: "";
@@ -2575,8 +2628,17 @@ footer {
 
 <!-- ─── HERO ─── -->
 <section class="hero" id="top">
-  <div class="hero-bg">
-    <img src="https://www.pinnata.it/wp-content/uploads/2023/02/hotel-a-pinnata-lipari-3.jpg" alt="Mare delle Eolie" />
+  <div class="hero-bg" id="heroBg">
+    <img class="hero-slide is-active" src="https://www.pinnata.it/wp-content/uploads/2023/02/panorama-da-Apinnata.jpg" alt="Panorama dall'Hotel A' Pinnata: la Rocca di Lipari e l'isola di Vulcano" />
+    <img class="hero-slide" src="https://www.pinnata.it/wp-content/uploads/2023/02/vulcano-615x410.jpg" alt="Isola di Vulcano vista da Lipari al tramonto" />
+    <img class="hero-slide" src="https://www.pinnata.it/wp-content/uploads/2023/02/hotel-a-pinnata-lipari-3.jpg" alt="Mare di Lipari dall'Hotel A' Pinnata" />
+    <img class="hero-slide" src="https://www.pinnata.it/wp-content/uploads/2023/02/lipari-2-615x410.jpg" alt="Costa di Lipari nelle Isole Eolie" />
+  </div>
+  <div class="hero-dots" aria-label="Indicatore slideshow">
+    <button class="hero-dot is-active" data-slide="0" aria-label="Vai alla slide 1"></button>
+    <button class="hero-dot" data-slide="1" aria-label="Vai alla slide 2"></button>
+    <button class="hero-dot" data-slide="2" aria-label="Vai alla slide 3"></button>
+    <button class="hero-dot" data-slide="3" aria-label="Vai alla slide 4"></button>
   </div>
 
   <div class="hero-content">
@@ -3584,6 +3646,41 @@ footer {
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ─── HERO SLIDER ─── */
+  (() => {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    if (slides.length < 2) return;
+    let idx = 0;
+    let timer = null;
+    const INTERVAL = 7500;
+
+    // mark first slide for special intro animation
+    slides[0].classList.add('is-first');
+
+    const go = (next) => {
+      if (next === idx) return;
+      slides[idx].classList.remove('is-active', 'is-first');
+      dots[idx]?.classList.remove('is-active');
+      idx = (next + slides.length) % slides.length;
+      slides[idx].classList.add('is-active');
+      dots[idx]?.classList.add('is-active');
+    };
+    const tick = () => go(idx + 1);
+    const start = () => { stop(); timer = setInterval(tick, INTERVAL); };
+    const stop = () => { if (timer) clearInterval(timer); timer = null; };
+
+    dots.forEach((d, i) => d.addEventListener('click', () => { go(i); start(); }));
+
+    // pause when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop(); else start();
+    });
+
+    // start after first slide intro completes
+    setTimeout(start, 2400);
+  })();
 
   /* ─── MOBILE BURGER MENU ─── */
   const burger = document.getElementById('navBurger');
